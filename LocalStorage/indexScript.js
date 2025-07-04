@@ -88,14 +88,12 @@ function obtenerFav() {
     return favoritosJson ? JSON.parse(favoritosJson) : [] //ternario
 }
 
-
-
 //  añadir un elemento de card a la lista de favoritos
 
 function añadirCardFav(idCard) {
     let favoritos = obtenerFav(); //ver primero si está vacio o que favoritos hay
     if (favoritos.includes(idCard)) {
-        console.log(`ya está en fav ${idCard} , agregue otro`);
+        console.log(`Ya está en fav ${idCard} , agregue otro`);
     } else {
         favoritos.push(idCard)
     }
@@ -120,39 +118,41 @@ function guardarFavoritos(favoritosArray) {
 
 
 //Funcion para eliminar 
+//uso el patron de INMUTABILIDAD , para filter
+// !== mantener los que no coincidan (es legible para expresar la idea de quitar, porque filter esta diseñado para incluir aquellos que pasen la condición), o la opción === eliminar, más usar otros métodos que ayuden a quitar del array original
 
-/* function eliminarFav(idFav) {
-
+function eliminarFav(idFav) {
+    let verFavoritos = obtenerFav();
+    let nuevosFavoritos = verFavoritos.filter(cadaIdFav => cadaIdFav !== idFav)
+    console.log("Estado actual nuevos favoritos: " + nuevosFavoritos);
+    guardarFavoritos(nuevosFavoritos)
 }
- */
-
-// EMPEZAR A BUSCAR LOS ELEMENTOS (CARDS - IDS) USANDO UN EVENTO Y PODER ASOCIARLOS DENTRO DEL EVENTO ...
-
-const misBotonesFav = document.getElementsByClassName("favButton")
 
 
+/* 
+Este evento 
+*/
+document.addEventListener("click", (e) => {
+    let buttonClase = e.target
+    let isButton = e.target.tagName;
+    let data = e.target.dataset.cardId
+    if (isButton === "BUTTON" && data) {
+        console.log(buttonClase.classList);
+        if (buttonClase.classList.contains("addButton")) {
+            añadirCardFav(data)
+            console.log(`se añadio ${data}`);
+        } else if (buttonClase.classList.contains("removeButton")) {
+            eliminarFav(data)
+            console.log(`se elimino ${data}`);
+        }
+    }
+    mostrarCardsFav()
 
-//convertir mi classlist que me retorna un htmlcollection en un array.
-//se usa el método "Array.from"
+})
 
-const botonesArray = Array.from(misBotonesFav);
 
 //al ser una funcion flecha no uso THIS para acceder , sino uso el objeto esuchador del evento "e", cada evento recibe un objeto como su primer argumento lo que hace que pueda acceder a que parte esta escuchando.. y tiene un elemento "target" como "PROPIEDAD" que se refiere al DOM que originó el evento.. SI FUESE una Funcion Tradicional acepta THIS del objeto. 
 
-
-
-botonesArray.forEach(boton => {
-    boton.addEventListener("click", (e) => {
-        let capturarId = e.target.dataset.cardId
-        console.log(capturarId);
-        añadirCardFav(capturarId)
-    })
-})
-
-/* 
-ya tengo el id.. 
-deberia ahora poder llamar a la funcion y agregar el id que quiero a favorito no ?
-*/
 
 // FUNCION PARA MOSTRAR MIS FAVORITOS 
 /* 
@@ -160,12 +160,13 @@ uso el metodo find() para encontrar dentro de mi array general, accediendo al ID
 acordarse de setearel html con comillas del innethtml de contenedor
 */
 
+let contenedorFav = document.getElementById("contenedorFavoritos");
 //evento para que cuando actualice el dom completo, y obtenga todos los datos, etc, se pueda mostrar las card fav , para que no haya fallos
 document.addEventListener("DOMContentLoaded", mostrarCardsFav)
 
 function mostrarCardsFav() {
     const idsFavorito = obtenerFav();
-    const contenedorFav = document.getElementById("contenedorFavoritos");
+
     contenedorFav.innerHTML = "";
 
     if (idsFavorito.length === 0) {
@@ -175,7 +176,6 @@ function mostrarCardsFav() {
 
     idsFavorito.forEach(cadaId => {
         let cursoEncontrado = todasLasCardsDisponibles.find(card => card.id === cadaId)
-        console.log(cursoEncontrado);
 
         if (cursoEncontrado) {
             const htmlCardFav = crearHTMlCard(cursoEncontrado, true)
@@ -184,3 +184,14 @@ function mostrarCardsFav() {
     })
 
 }
+
+
+/* 
+//FUNCION A TENER EN CUENTA PARA ENTENDER LOS RE-RENDERIZADOS
+// Función auxiliar para re-renderizar toda la UI relevante
+function actualizarUI() {
+    mostrarTodasLasCards(); // Vuelve a dibujar todas las tarjetas
+    mostrarCardsFav();      // Vuelve a dibujar la sección de favoritos
+}
+
+*/
