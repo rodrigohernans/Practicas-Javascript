@@ -1,0 +1,56 @@
+[
+  {
+    "title": "Inception",
+    "rating": 5,
+    "tags": ["ciencia ficción", "thriller", "favorita"],
+    "year": 2010
+  },
+  {
+    "title": "The Godfather",
+    "rating": 5,
+    "tags": ["drama", "crimen", "clásico"],
+    "year": 1972
+  },
+  {
+    "title": "Mad Max",
+    "rating": 4,
+    "tags": ["acción", "aventura", "post-apocalíptico"],
+    "year": 2015
+  },
+  {
+    "title": "Parasite",
+    "rating": 5,
+    "tags": ["thriller", "drama", "favorita"],
+    "year": 2019
+  },
+  {
+    "title": "Spirited Away",
+    "rating": 5,
+    "tags": ["animación", "fantasía", "japonesa"],
+    "year": 2001
+  },
+  {
+    "title": "Pulp Fiction",
+    "rating": 4,
+    "tags": ["crimen", "culto", "favorita"],
+    "year": 1994
+  },
+  {
+    "title": "The Matrix",
+    "rating": 5,
+    "tags": ["ciencia ficción", "acción", "clásico"],
+    "year": 1999
+  },
+  {
+    "title": "Zoolander",
+    "rating": 5,
+    "tags": ["ciencia ficción", "acción", "clásico"],
+    "year": 2001
+  },
+  {
+    "title": "Avengers",
+    "rating": 5,
+    "tags": ["ciencia ficción", "acción", "clásico"],
+    "year": 2012
+  }
+]
