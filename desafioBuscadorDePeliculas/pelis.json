@@ -1,7 +1,7 @@
 [
   {
     "title": "Inception",
-    "rating": 5,
+    "rating": 8,
     "tags": ["ciencia ficción", "thriller", "favorita"],
     "year": 2010
   },
@@ -19,19 +19,19 @@
   },
   {
     "title": "Parasite",
-    "rating": 5,
+    "rating": 3,
     "tags": ["thriller", "drama", "favorita"],
     "year": 2019
   },
   {
     "title": "Spirited Away",
-    "rating": 5,
+    "rating": 6,
     "tags": ["animación", "fantasía", "japonesa"],
     "year": 2001
   },
   {
-    "title": "Pulp Fiction",
-    "rating": 4,
+    "title": "Pulp Fiction Matrix",
+    "rating": 9,
     "tags": ["crimen", "culto", "favorita"],
     "year": 1994
   },

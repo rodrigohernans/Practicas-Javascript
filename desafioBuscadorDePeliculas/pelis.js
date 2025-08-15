@@ -31,20 +31,11 @@ async function readData() {
     }
 }
 
-const data = readData().then(data => {
-    return data;
-}).catch(err => {
-    console.error("Error al leer las peliculas: " + err);
-});
-
-
-
 /* 
 Esta funcion se va a encargar de ordenar las peliculas, por titulo, rating, years... 
 */
 
 async function sortBy(dataPromises, keyWord) {
-
 
     const pelis = await dataPromises;
 
@@ -55,19 +46,17 @@ async function sortBy(dataPromises, keyWord) {
         let sortedPelis;
         switch (keyWord) {
             case "title":
-                sortedPelis =  [...pelis].sort((a, b) => a.title.localeCompare(b.title))
-                    .map(peli => peli.title);
-                console.log("Peliculas ordenadas por titulo: " + sortedPelis.join(", "));
+                sortedPelis = [...pelis].sort((a, b) => a.title.localeCompare(b.title))
+                console.table(sortedPelis);
                 break;
             case "rating":
-                sortedPelis = [...pelis].sort((a, b) => b.rating - a.rating)
-                    .map(peli => `(${peli.rating})`);
-                console.log("Peliculas ordenadas por rating: " + sortedPelis.join(", "));
+                sortedPelis = [...pelis].sort((a, b) => a.rating - b.rating)
+                console.table(sortedPelis);
+
                 break;
             case "year":
-                sortedPelis = [...pelis].sort((a, b) => b.year - a.year)
-                    .map(peli => `(${peli.year})`);
-                console.log("Peliculas ordenadas por year: " + sortedPelis.join(", "));
+                sortedPelis = [...pelis].sort((a, b) => a.year - b.year)
+                console.table(sortedPelis);
                 break;
             default:
                 break;
@@ -79,9 +68,58 @@ async function sortBy(dataPromises, keyWord) {
     }
 }
 
-/* sortBy(data, "title"); */
+
+async function search(dataPelis, text) {
+    const pelis = await dataPelis;
+
+    try {
+        if (text === undefined || text === "") {
+            console.error("Error: Debes especificar un texto con el titulo de la pelicula a buscar");
+            return;
+        }
+        const peliEncontrada = pelis.filter((peli) => peli.title.toLowerCase().includes(text.toLowerCase()));
+        if (peliEncontrada.length === 0) {
+            console.log(`No se encontro ninguna pelicula con el texto "${text}", busque otra opción`);
+        } else {
+            console.table(peliEncontrada);
+        }
+
+
+    } catch (error) {
+        console.error("Error al buscar la pelicula: " + error);
+    }
+}
+
+async function tag(dataPelis, tagTexto) {
+    const pelis = await dataPelis;
+    try {
+        if (tagTexto === undefined || tagTexto === "") {
+            console.error("Error: Debes especificar un tag para buscar peliculas, ejemplo: aventura");
+            return;
+        }
+        const pelisFiltradasTag = pelis.filter(peli =>
+            peli.tags.some(tag =>
+                tag.toLowerCase() // normaliza mayusculas
+                    .normalize("NFD") // normaliza caracteres especiales
+                    .replace(/[\u0300-\u036f]/g, "") // elimina acentos
+                    .includes( 
+                        tagTexto.toLowerCase()
+                            .normalize("NFD")
+                            .replace(/[\u0300-\u036f]/g, "")
+                    )
+            )
+        );
+        console.table(pelisFiltradasTag);
+
+    } catch (error) {
+        console.error("Error al buscar peliculas por tag: " + error);
+    }
+}
+
 
 module.exports = {
     sortBy,
-    readData
-}; 
+    readData,
+    search,
+    tag
+};
